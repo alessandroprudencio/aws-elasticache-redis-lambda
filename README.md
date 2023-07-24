@@ -39,3 +39,29 @@ This guide provides a step-by-step process to configure a Lambda function that c
 1. Add the necessary code to your Lambda function to connect to the ElastiCache Redis cluster using the cluster's endpoint.
 
 With these steps, you will have successfully configured a Lambda function that connects to an ElastiCache Redis cluster in a VPC, ensuring enhanced security and control over communication with your Redis cluster.
+
+## Benchmark Databases
+
+### ElastiCache Redis (us-east-1, cache.t4g.micro)
+
+First test:
+
+- Read: 19ms
+- Write: 374ms
+
+Average in cache:
+
+- Read: 1ms
+- Write: 1ms
+
+### Amazon MemoryDB for Redis (us-east-1, db.t4g.small )
+
+First test:
+
+- Read: 19ms
+- Write: 374ms
+
+Average in cache:
+
+- Read: 1ms
+- Write: 1ms

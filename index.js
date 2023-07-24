@@ -1,16 +1,14 @@
 const Redis = require("ioredis");
 
-const redisHost = "test-vpc-redis-cluster.xshhff.clustercfg.use1.cache.amazonaws.com";
+const redisHost = "test.123.clustercfg.use1.cache.amazonaws.com";
 const redisPort = 6379;
 
-const redisClient = new Redis.Cluster([
-  {
-    port: redisPort,
-    host: redisHost,
-  },
-]);
+const redisClient = new Redis({
+  port: redisPort,
+  host: redisHost,
+});
 
-const userId = getRandomInteger(1, 100)
+const userId = getRandomInteger(1, 100);
 
 exports.handler = async (event) => {
   const latencyCreate = await createData();
