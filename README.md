@@ -49,7 +49,7 @@ First test:
 - Read: 19ms
 - Write: 374ms
 
-Average in cache:
+Average:
 
 - Read: 1ms
 - Write: 1ms
@@ -58,10 +58,10 @@ Average in cache:
 
 First test:
 
-- Read: 19ms
-- Write: 374ms
+- Read: 15ms
+- Write: 471ms
 
-Average in cache:
+Average:
 
 - Read: 1ms
-- Write: 1ms
+- Write: 4ms

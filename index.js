@@ -1,12 +1,23 @@
 const Redis = require("ioredis");
 
-const redisHost = "test.123.clustercfg.use1.cache.amazonaws.com";
+const redisHost = "clustercfg.test-vpc-memory-db.xshhff.memorydb.us-east-1.amazonaws.com";
+// const redisHost = "test-vpc-redis-cluster.xshhff.clustercfg.use1.cache.amazonaws.com";
 const redisPort = 6379;
 
-const redisClient = new Redis({
-  port: redisPort,
-  host: redisHost,
-});
+const redisClient = new Redis.Cluster(
+  [
+    {
+      port: redisPort,
+      host: redisHost,
+    },
+  ],
+  {
+    dnsLookup: (address, callback) => callback(null, address),
+    redisOptions: {
+      tls: {},
+    },
+  }
+);
 
 const userId = getRandomInteger(1, 100);
 
@@ -19,7 +30,10 @@ exports.handler = async (event) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: data,
+    body: {
+      ...data,
+      redisHost
+    },
   };
 
   return response;
@@ -30,7 +44,7 @@ async function getData(latencyCreate) {
     console.log("Start getting data");
 
     const start = new Date();
-    const data = JSON.parse(await redisClient.get(`user:${userId}`))
+    const data = JSON.parse(await redisClient.get(`user:${userId}`));
     const end = new Date();
 
     console.log("Data retrieved:", data);
@@ -52,7 +66,10 @@ async function getData(latencyCreate) {
 async function createData() {
   try {
     const start = new Date();
-    await redisClient.set(`user:${userId}`, JSON.stringify({ id: userId, name: `Username-${userId}` }));
+    await redisClient.set(
+      `user:${userId}`,
+      JSON.stringify({ id: userId, name: `Username-${userId}` })
+    );
     const end = new Date();
 
     return end - start;
